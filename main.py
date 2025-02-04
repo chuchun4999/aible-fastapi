@@ -13,7 +13,7 @@ engine = create_engine(MYSQL_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # 배포 시 특정 도메인으로 제한할 것
+    allow_origins=["*"],  # 배포 시 특정 도메인으로 제한할 것
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
