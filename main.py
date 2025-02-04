@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import pymysql  
+import uvicorn
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -23,6 +24,15 @@ app.add_middleware(
 # 입력 데이터 모델 정의
 class InputData(BaseModel):
     text: str
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello, Railway!"}
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 8000))  # Railway에서 자동 할당된 포트 사용
+    uvicorn.run(app, host="0.0.0.0", port=port)
+
 
 # GET 요청 테스트용 API
 @app.get("/test")
