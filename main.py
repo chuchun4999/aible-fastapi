@@ -2,6 +2,7 @@ from fastapi import FastAPI,Form
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import os
+import pymysql  
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -9,7 +10,7 @@ app = FastAPI()
 
 MYSQL_URL = os.getenv("MYSQL_URL")  # Railway 환경변수에서 MySQL URL 가져오기
 
-engine = create_engine(MYSQL_URL)
+pymysql.install_as_MySQLdb()
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 app.add_middleware(
     CORSMiddleware,
