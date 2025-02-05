@@ -132,7 +132,7 @@ class Teraphy(BaseModel):
 @app.post("/teraphy")
 async def find_matching_therapist(input: Teraphy):
     # Load therapist list from JSON
-    with open('therapist.json', 'r', encoding='utf-8') as f:
+    with open('therapists.json', 'r', encoding='utf-8') as f:
         therapists = json.load(f)
 
     # 필터링
