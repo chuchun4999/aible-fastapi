@@ -10,6 +10,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+import HTTPException
 
 app = FastAPI()
 
@@ -63,7 +64,10 @@ def read_root():
 @app.post("/pre")
 def add_data(input_data: InputData, db: Session = Depends(get_db)):
     print(f"📩 새로운 이메일 저장 시도: {input_data.email}")
-    
+    existing_entry = db.query(PreSubmit).filter(PreSubmit.email == input_data.email).first()
+    if existing_entry:
+        print("⚠️ 이미 존재하는 이메일입니다!")
+        raise HTTPException(status_code=400, detail="Email already exists in database")
     new_entry = PreSubmit(email=input_data.email)
     db.add(new_entry)
     db.commit()
