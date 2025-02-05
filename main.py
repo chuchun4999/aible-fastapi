@@ -8,6 +8,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from fastapi import Depends
 from sqlalchemy.orm import Session
+from sqlalchemy.ext.declarative import declarative_base
 
 app = FastAPI()
 
@@ -23,8 +24,20 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
+
+class PreSubmit(Base):
+    __tablename__ = "PreSubmit"  # Railway에 생성된 테이블 이름과 동일해야 함
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    email = Column(String(255), nullable=False, unique=True)
+
 # 입력 데이터 모델 정의
-class PreSubmit(BaseModel):
+class InputData(BaseModel):
     email: str
 
 
@@ -47,12 +60,12 @@ if __name__ == "__main__":
 
 
 @app.post("/pre")
-def add_data(input_data: PreSubmit, db: Session = Depends(get_db)):
-    new_entry = PreSubmit(email=input_data.text)
+def add_data(input_data: InputData, db: Session = Depends(get_db)):
+    new_entry = InputData(email=input_data.email)
     db.add(new_entry)
     db.commit()
     db.refresh(new_entry)
-    return {"message": "Data added successfully!", "email": new_entry.email}
+    return {"message": "Data added successfully!", "email": new_entry.id}
 
 # GET 요청 테스트용 API
 @app.get("/test")
