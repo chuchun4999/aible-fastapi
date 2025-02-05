@@ -36,6 +36,11 @@ class PreSubmit(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(255), nullable=False, unique=True)
 
+def init_db():
+    Base.metadata.create_all(bind=engine)
+
+init_db()
+
 # 입력 데이터 모델 정의
 class InputData(BaseModel):
     email: str
