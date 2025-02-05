@@ -146,14 +146,14 @@ async def find_matching_therapist(input_data: Terapy):
     user_weekly_sessions = user_data["num_of_week"]
 
     # Find the best match
-    matching_therapists = [
+    matching_therapists = {
         therapist for therapist in therapists
         if therapist["therapist_gender"] == user_gender
         and therapist["therapist_style"] == user_style
         and therapist["exercise_intensity"] == user_intensity
         and therapist["num_of_week"] == user_weekly_sessions
-    ]
-    return
+    }
+    return matching_therapists
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))  # Railway에서 자동 할당된 포트 사용
     uvicorn.run(app, host="0.0.0.0", port=port)
