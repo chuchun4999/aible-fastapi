@@ -62,31 +62,16 @@ def read_root():
 
 @app.post("/pre")
 def add_data(input_data: InputData, db: Session = Depends(get_db)):
-    try:
-        print(f"📩 새로운 이메일 저장 시도: {input_data.email}")
-        
-        new_entry = PreSubmit(email=input_data.email)
-        db.add(new_entry)
-        db.commit()
-        db.refresh(new_entry)
+    print(f"📩 새로운 이메일 저장 시도: {input_data.email}")
+    
+    new_entry = PreSubmit(email=input_data.email)
+    db.add(new_entry)
+    db.commit()
+    db.refresh(new_entry)
 
-        print(f"✅ 이메일 저장 성공: {input_data.email}")
-        return {"message": "Data added successfully!", "email": new_entry.email}
+    print(f"✅ 이메일 저장 성공: {input_data.email}")
+    return {"message": "Data added successfully!", "email": new_entry.email}
 
-    except IntegrityError:  # 이메일 중복 오류 처리
-        db.rollback()
-        print("❌ 이메일 중복 오류 발생!")
-        raise HTTPException(status_code=400, detail="Email already exists in database")
-
-    except SQLAlchemyError as e:
-        db.rollback()
-        print(f"❌ 데이터베이스 오류 발생: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Database Error: {str(e)}")
-
-    except Exception as e:
-        db.rollback()
-        print(f"❌ 서버 내부 오류 발생: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Server Error: {str(e)}")
 
 # GET 요청 테스트용 API
 @app.get("/test")
