@@ -33,7 +33,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 class PreSubmit(Base):
-    __tablename__ = "pre_submit"  # Railway에 생성된 테이블 이름과 동일해야 함
+    __tablename__ = "user"  # Railway에 생성된 테이블 이름과 동일해야 함
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(255), nullable=False, unique=True)
