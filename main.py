@@ -59,9 +59,7 @@ def get_db():
 def read_root():
     return {"message": "Hello, Railway!"}
 
-if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8000))  # Railway에서 자동 할당된 포트 사용
-    uvicorn.run(app, host="0.0.0.0", port=port)
+
 
 
 @app.post("/pre")
@@ -112,3 +110,6 @@ async def submit_form(
         "disability": disability,
         "comments": comments,
     }
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 8000))  # Railway에서 자동 할당된 포트 사용
+    uvicorn.run(app, host="0.0.0.0", port=port)
