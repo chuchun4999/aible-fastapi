@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
 @app.post("/pre")
 def add_data(input_data: InputData, db: Session = Depends(get_db)):
-    new_entry = InputData(email=input_data.email)
+    new_entry = PreSubmit(email=input_data.email)
     db.add(new_entry)
     db.commit()
     db.refresh(new_entry)
