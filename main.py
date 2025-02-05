@@ -37,6 +37,8 @@ class PreSubmit(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(255), nullable=False, unique=True)
+    gender = Column(String(255), nullable=False)
+    age = Column(Integer(255), nullable=False)
 
 def init_db():
     Base.metadata.create_all(bind=engine)
