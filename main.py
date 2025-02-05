@@ -6,6 +6,8 @@ import pymysql
 import uvicorn
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from fastapi import Depends
+from sqlalchemy.orm import Session
 
 app = FastAPI()
 
@@ -22,8 +24,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 # 입력 데이터 모델 정의
-class InputData(BaseModel):
-    text: str
+class PreSubmit(BaseModel):
+    email: str
+
+
+# 데이터베이스 세션 종속성 정의
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 
 @app.get("/")
 def read_root():
@@ -34,10 +46,19 @@ if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=port)
 
 
+@app.post("/pre")
+def add_data(input_data: PreSubmit, db: Session = Depends(get_db)):
+    new_entry = PreSubmit(email=input_data.text)
+    db.add(new_entry)
+    db.commit()
+    db.refresh(new_entry)
+    return {"message": "Data added successfully!", "email": new_entry.email}
+
 # GET 요청 테스트용 API
 @app.get("/test")
 def read_root():
     return {"message": "Hello, FastAPI + React!"}
+
 
 # POST 요청 API (React에서 호출할 API)
 @app.post("/process/")
