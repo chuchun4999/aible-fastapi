@@ -122,23 +122,24 @@ async def submit_form(
         "disability": disability,
         "comments": comments,
     }
-
-class Terapy(BaseModel):
-    therapist_gender: str
-    therapist_style: str
-    exercise_intensity: str
-    num_of_week: int
+    
 
 @app.post("/teraphy")# or form-section
-async def find_matching_therapist(input_data: Terapy):
-    # Load user selection from JSON
-    with open(input_data, 'r', encoding='utf-8') as f:
-        user_data = f
-    
+async def find_matching_therapist(
+    therapist_gender: str = Form(...),
+    therapist_style: str = Form(...),
+    exercise_intensity: str = Form(...),
+    num_of_week: int = Form(...)
+):
     # Load therapist list from JSON
     with open('therapist.json', 'r', encoding='utf-8') as f:
         therapists = json.load(f)
-
+    user_data = {
+        therapist_gender: therapist_gender,
+        therapist_style: therapist_style,
+        exercise_intensity: exercise_intensity,
+        num_of_week: num_of_week
+    }
     # Extract user preferences
     user_gender = user_data["therapist_gender"]
     user_style = user_data["therapist_style"]
