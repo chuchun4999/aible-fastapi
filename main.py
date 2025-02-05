@@ -86,7 +86,7 @@ def process_data(data: InputData):
 
 @app.get("/routes")
 def get_routes():
-    return { "routes": [route.path for route in app.routes] }
+    return { "routes": "이거 왜 안댐"}
 
 @app.post("/submit")
 async def submit_form(
