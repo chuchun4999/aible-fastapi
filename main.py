@@ -10,7 +10,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
-import HTTPException
+from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
