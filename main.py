@@ -135,10 +135,10 @@ async def find_matching_therapist(
     with open('therapist.json', 'r', encoding='utf-8') as f:
         therapists = json.load(f)
     user_data = {
-        therapist_gender: therapist_gender,
-        therapist_style: therapist_style,
-        exercise_intensity: exercise_intensity,
-        num_of_week: num_of_week
+        "therapist_gender": therapist_gender,
+        "therapist_style": therapist_style,
+        "exercise_intensity": exercise_intensity,
+        "num_of_week": num_of_week
     }
     # Extract user preferences
     user_gender = user_data["therapist_gender"]
