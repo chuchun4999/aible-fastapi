@@ -38,7 +38,7 @@ class PreSubmit(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(255), nullable=False, unique=True)
     gender = Column(String(255), nullable=False)
-    age = Column(Integer(255), nullable=False)
+    age = Column(Integer, nullable=False)
 
 def init_db():
     Base.metadata.create_all(bind=engine)
@@ -48,6 +48,8 @@ init_db()
 # 입력 데이터 모델 정의
 class InputData(BaseModel):
     email: str
+    gender: str
+    age: int
 
 
 # 데이터베이스 세션 종속성 정의
@@ -70,7 +72,7 @@ def add_data(input_data: InputData, db: Session = Depends(get_db)):
     if existing_entry:
         print("⚠️ 이미 존재하는 이메일입니다!")
         raise HTTPException(status_code=400, detail="Email already exists in database")
-    new_entry = PreSubmit(email=input_data.email)
+    new_entry = PreSubmit(email=input_data.email, gender=input_data.gender, age=input_data.age)
     db.add(new_entry)
     db.commit()
     db.refresh(new_entry)
