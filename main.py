@@ -59,16 +59,13 @@ def get_db():
 def read_root():
     return {"message": "Hello, Railway!"}
 
-
-
-
 @app.post("/pre")
 def add_data(input_data: InputData, db: Session = Depends(get_db)):
     new_entry = PreSubmit(email=input_data.email)
     db.add(new_entry)
     db.commit()
     db.refresh(new_entry)
-    return {"message": "Data added successfully!", "email": new_entry.id}
+    return {"message": "Data added successfully!", "email": new_entry.email}
 
 # GET 요청 테스트용 API
 @app.get("/test")
