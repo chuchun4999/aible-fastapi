@@ -122,39 +122,30 @@ async def submit_form(
         "disability": disability,
         "comments": comments,
     }
-    
 
-@app.post("/teraphy")# or form-section
-async def find_matching_therapist(
-    therapist_gender: str = Form(...),
-    therapist_style: str = Form(...),
-    exercise_intensity: str = Form(...),
-    num_of_week: int = Form(...)
-):
+class Teraphy(BaseModel):
+    therapist_gender: str
+    therapist_style: str
+    exercise_intensity: str
+    num_of_week: int
+
+@app.post("/teraphy")
+async def find_matching_therapist(input: Teraphy):
     # Load therapist list from JSON
     with open('therapist.json', 'r', encoding='utf-8') as f:
         therapists = json.load(f)
-    user_data = {
-        "therapist_gender": therapist_gender,
-        "therapist_style": therapist_style,
-        "exercise_intensity": exercise_intensity,
-        "num_of_week": num_of_week
-    }
-    # Extract user preferences
-    user_gender = user_data["therapist_gender"]
-    user_style = user_data["therapist_style"]
-    user_intensity = user_data["exercise_intensity"]
-    user_weekly_sessions = user_data["num_of_week"]
 
-    # Find the best match
-    matching_therapists = {
+    # 필터링
+    matching_therapists = [
         therapist for therapist in therapists
-        if therapist["therapist_gender"] == user_gender
-        and therapist["therapist_style"] == user_style
-        and therapist["exercise_intensity"] == user_intensity
-        and therapist["num_of_week"] == user_weekly_sessions
-    }
+        if therapist["therapist_gender"] == input.therapist_gender
+        and therapist["therapist_style"] == input.therapist_style
+        and therapist["exercise_intensity"] == input.exercise_intensity
+        and therapist["num_of_week"] == input.num_of_week
+    ]
+
     return matching_therapists
+
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))  # Railway에서 자동 할당된 포트 사용
     uvicorn.run(app, host="0.0.0.0", port=port)
