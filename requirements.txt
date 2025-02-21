@@ -4,4 +4,4 @@ sqlalchemy
 pymysql  
 python-multipart
 asyncmy
-cv2
+opencv-python
