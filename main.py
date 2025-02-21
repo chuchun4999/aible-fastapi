@@ -31,6 +31,8 @@ pymysql.install_as_MySQLdb()
 
 # 단일 async 엔진 및 세션 생성 (동기 세션 생성기는 제거)
 MYSQL_URL = os.getenv("MYSQL_URL")
+if MYSQL_URL.startswith("mysql://"):
+    MYSQL_URL = MYSQL_URL.replace("mysql://", "mysql+asyncmy://", 1)
 engine = create_async_engine(MYSQL_URL, echo=True)
 AsyncSessionLocal = async_sessionmaker(bind=engine, expire_on_commit=False)
 
