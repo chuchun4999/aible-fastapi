@@ -5,3 +5,4 @@ pymysql
 python-multipart
 asyncmy
 numpy
+fastapi_users
