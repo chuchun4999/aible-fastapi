@@ -6,7 +6,7 @@ import pymysql
 import cv2
 import base64
 import numpy as np
-import Calibrator
+# import Calibrator
 
 from fastapi import FastAPI, Form, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -95,19 +95,19 @@ async def test_root():
 class ImageData(BaseModel):
     image: str
 
-@app.post("/process_frame")
-async def process_frame(image_data: ImageData):
-    try:
-        # Base64 데이터에서 헤더 제거 후 디코딩
-        b64data = image_data.image.split(",")[1]
-        image_bytes = base64.b64decode(b64data)
-        image_np = np.frombuffer(image_bytes, dtype=np.uint8)
-        frame = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
-        calibrator = Calibrator(calibration_frames=1, rom_duration=3)
-        frame, joint_angles = calibrator.process_frame(frame)
-        return joint_angles
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# @app.post("/process_frame")
+# async def process_frame(image_data: ImageData):
+#     try:
+#         # Base64 데이터에서 헤더 제거 후 디코딩
+#         b64data = image_data.image.split(",")[1]
+#         image_bytes = base64.b64decode(b64data)
+#         image_np = np.frombuffer(image_bytes, dtype=np.uint8)
+#         frame = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
+#         calibrator = Calibrator(calibration_frames=1, rom_duration=3)
+#         frame, joint_angles = calibrator.process_frame(frame)
+#         return joint_angles
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
 
 # ------------------ 폼 제출 엔드포인트 ------------------
 @app.post("/submit")
