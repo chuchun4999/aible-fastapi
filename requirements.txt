@@ -6,3 +6,4 @@ python-multipart
 asyncmy
 numpy
 fastapi_users
+fastapi_users_db_sqlalchemy
