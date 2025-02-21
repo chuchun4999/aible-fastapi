@@ -39,7 +39,7 @@ Base = declarative_base()
 
 # ------------------ 일반 모델 (예: PreSubmit) ------------------
 class PreSubmit(Base):
-    __tablename__ = "pre_submit"
+    __tablename__ = "user"
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(255), nullable=False, unique=True)
     gender = Column(String(255), nullable=False)
