@@ -49,7 +49,6 @@ class Calibrator:
                 angle = Calibrator.calculate_angle_3d(pts[0], pts[1], pts[2])
                 joint_angles[joint] = angle
 
-            mp.solutions.drawing_utils.draw_landmarks(frame, results.pose_landmarks, self.mp_pose.POSE_CONNECTIONS)
         
         return frame, joint_angles
 
