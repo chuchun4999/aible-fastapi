@@ -55,7 +55,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://chuchun4999.github.io/"],  # 배포 시 특정 도메인으로 제한
+    allow_origins=["https://chuchun4999.github.io"],  # 배포 시 특정 도메인으로 제한
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
