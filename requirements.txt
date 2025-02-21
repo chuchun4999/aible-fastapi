@@ -5,3 +5,4 @@ pymysql
 python-multipart
 asyncmy
 opencv-python-headless
+mediapipe
