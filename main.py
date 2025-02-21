@@ -26,8 +26,6 @@ from typing import AsyncGenerator
 from fastapi_users import UUIDIDMixin
 
 # ------------------ Database 설정 ------------------
-# pymysql을 MySQLdb로 설정 (동기 코드에서 필요한 경우)
-pymysql.install_as_MySQLdb()
 
 # 단일 async 엔진 및 세션 생성 (동기 세션 생성기는 제거)
 MYSQL_URL = os.getenv("MYSQL_URL")
